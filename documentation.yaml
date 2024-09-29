@@ -1,0 +1,233 @@
+openapi: 3.0.3
+info:
+  title: TestTask
+  version: 0.0.1
+paths:
+  
+  /text:
+    get:
+      
+      parameters:
+        - name: song
+          in: query
+          required: true
+          schema: 
+            type: string
+        
+        - name: group
+          in: query
+          required: true
+          schema: 
+            type: string
+            
+        - name: limit
+          description: "лимитирует возвращаемые значения"
+          in: query
+          required: true
+          schema:
+            type: integer
+              
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            
+      responses:
+        '200':
+          description: ok
+          
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  couplets:
+                    type: array
+                    items: 
+                      type: string
+                      
+        '400': 
+          description: Bad request
+        
+        '500':
+          description: Iteranl server error
+            
+
+  /songs:
+    get:
+      parameters:
+        - name: limit
+          description: "лимитирует возвращаемые значения"
+          in: query
+          required: true
+          schema:
+            type: integer
+            
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+        
+        - name: song
+          in: query
+          required: false
+          schema:
+            type: string
+            
+        - name: group
+          in: query
+          required: false
+          schema:
+            type: string
+            
+        
+        - name: realese
+          in: query
+          required: false
+          schema:
+            type: string
+            
+            
+        - name: link
+          in: query
+          required: false
+          schema: 
+            type: string
+            
+        - name: text
+          in: query
+          required: false
+          schema: 
+            type: string
+            
+    
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  songs:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/Song'
+                      
+        '400': 
+          description: Bad request
+        
+        '500':
+          description: Iteranl server error
+          
+  
+  /add:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SongHead'
+             
+      responses:
+        '200':
+          description: created
+           
+        '400':
+          description: Bad request
+          
+                      
+        '500':
+          description: iternal server error
+          
+         
+  /edit/{group}/{song}:
+  
+    patch:
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+            
+        - name: song
+          in: path
+          required: true
+          schema:
+            type: string
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+              
+      
+      responses: 
+        '200':
+          description: Edited
+        '400':
+          description: Bad request
+        '500':
+          description: Iternal server error
+          
+  /delete/{group}/{song}:
+    delete: 
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+        
+        - name: song
+          in: path
+          required: true
+          schema:
+            type: string
+            
+      responses:
+        '200': 
+          description: Delted
+        '400': 
+          description: Bad request
+        '500':
+          description: Iternal server error
+          
+        
+            
+      
+components:
+  schemas: 
+  
+    SongHead:
+      type: object
+      
+      properties:
+        song:
+          type: string
+        group:
+          type: string
+    
+    Song: 
+      type: object
+      
+      properties:
+        song:
+          type: string
+        group:
+          type: string
+        text:
+          type: string
+        link: 
+          type: string 
+        realeseDate:
+          type: string
+  
+        
+      
+        
+        
